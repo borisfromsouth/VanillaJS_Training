@@ -1,5 +1,5 @@
 //alert('Im working Im JavaScript Im Perfect 0_0');  // уведомление в браузере
-console.log('Im working Im JavaScript ImPerfect 0_0');  // логирование
+/*console.log('Im working Im JavaScript ImPerfect 0_0');  // логирование
 
 let a = 222; // для инициалазации переменной перед ней пишется  let
 let b = a - 5;
@@ -7,7 +7,7 @@ console.log(b);
 a = 100;  // переменные инициализированы выше
 b = a - 8;
 console.log(b);
-console.log(b, a); 
+console.log(b, a); */
 
 //const c = 150;  // объявление константы 
 //let d =  11;
@@ -18,7 +18,7 @@ console.log(b, a);
 //const value = "Sasha";  // строка   любой текст в кавычках
 //const value2 = Sasha;  // ошибка!!!
 
-const value3 = true;  // логические занчения
+/*const value3 = true;  // логические занчения
 const value4 = false;
 
 const value5 = 222;  // целое число
@@ -103,7 +103,7 @@ console.log(calculator.plus(5, 10));
 console.log(calculator.minus(5, 10));
 console.log(calculator.multiply(5, 10));
 console.log(calculator.devide(5, 10));
-console.log(calculator.pow(5, 10));
+console.log(calculator.pow(5, 10));*/
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,24 +111,24 @@ console.log(calculator.pow(5, 10));
 // и преобразует их в объекты внутри js так, что мы можем получить к
 // ним доступ и работать
 
-console.log(document);  // для работы с html используется document
+//console.log(document);  // для работы с html используется document
 
 const title = document.getElementById('title');
 console.log(title);
 
 title.innerHTML = "Hello from JS!";  // изменеие текста тега
 //title.style.color = 'red';
-console.log(title);
+//console.log(title);
 
-const title2 = document.getElementsByTagName('h1'); // можем получить сразу несколько элементов по одинаковому типу
-console.log(title2);
+/*const title2 = document.getElementsByTagName('h1'); // можем получить сразу несколько элементов по одинаковому типу
+console.log(title2);*/
 
-const title3 = document.getElementsByClassName('h1'); // получить элемент по названию класса 
-console.log(title3);
+/*const title3 = document.getElementsByClassName('h1'); // получить элемент по названию класса 
+console.log(title3);*/
 
-const title4 = document.querySelector('#title'); // получаем первый попавшейся элемент с названием тега
+//const title4 = document.querySelector('#title'); // получаем первый попавшейся элемент с названием тега
 //title4.style.color = 'green';
-console.log(title4);
+//console.log(title4);
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -207,16 +207,35 @@ window.addEventListener("offline", offlineHandler);  // проверка на п
 window.addEventListener("online", onlineHandler);*/
 
 
-function clickHandler(){
+/*function clickHandler(){
     const currentClass = title.className;
     console.log(currentClass);
     if(currentClass != 'clicked'){
-        title.className = 'clicked';
+        //title.className = 'clicked';
+        title.classList.add('clicked');
         console.log("Set clicked");
     }else{
-        title.className = "";
+        //title.className = "";
+        title.classList.remove('clicked');
         console.log("Remove clicked");
     }
+}*/
+
+// 2 вариант
+/*function clickHandler(){
+    const hasClicked = title.classList.contains('clicked');
+    if(hasClicked){
+        title.classList.remove('clicked');
+        console.log("Remove clicked");
+    }else{
+        title.classList.add('clicked');
+        console.log("Set clicked");
+    }
+}*/
+
+// 3 вариант (короткий)
+function clickHandler(){
+    title.classList.toggle('clicked'); // добавляет если заданного класса нету и убирает если есть 
 }
 
 function init(){
