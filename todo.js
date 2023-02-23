@@ -1,47 +1,71 @@
-const todoForm = document.querySelector('.js-todoForm');
-const todoInput = todoForm.querySelector('input');
-const todoList = document.querySelector('.js-todoForm');
+const toDoForm = document.querySelector('.js-toDoForm');
+const toDoInput = toDoForm.querySelector('input');
+const toDoViewList = document.querySelector('.js-toDoList');
+
+let toDoArray = [];
 
 function init(){
+    if (localStorage.length == 0) {
+        localStorage.clear();
+    }
+    toDoForm.addEventListener('submit', toDoSubmitHandler);
     getStorageList();
-    todoForm.addEventListener('submit', todoSubmitHandler);
 }
 
 function getStorageList(){
-    const currentTodoList = localStorage.getItem('todoList');
-    if(currentTodoList != null){
-        //showTodoList(currentName);
+    const loadedToDoList = localStorage.getItem('toDoList');
+    if(loadedToDoList != null){
+        const parsedToDoArray = JSON.parse(loadedToDoList); // парсим массив
+        parsedToDoArray.forEach(function (element) { // element - элемент массива
+            addToDoListElement(element.name);
+        });
     }
 }
 
-function addToDoListElement(text){
-    //console.log(text);
+function addToDoListElement(text){ // добавляем задачу в списко
     const li = document.createElement('li');
     const delButton = document.createElement('button');
     const span = document.createElement('span');
+    const newId = toDoArray.length + 1;
 
-    delButton.innerHTML = 'Del';
-    span.innerText = text;
+    delButton.innerHTML = 'Del'; // текст на кнопке
+    delButton.addEventListener('click', deleteTaskHandler);
+    span.innerText = text; // текст самой задачи
 
-    li.appendChild(delButton); // добьавляем элементы
+    li.appendChild(delButton); // добавляем элементы
     li.appendChild(span);
-    todoList.appendChild(li);
+    li.id = newId;
+    toDoViewList.appendChild(li);
+
+    const toDoObject = { // создаем новый объект задачи  
+        name: text,
+        id: newId
+    };
+    toDoArray.push(toDoObject); // забрасываем в массив
+
+    saveToDoList();
 }
 
-/*function askUserName(){ 
-    form.classList.add('showing'); // показываем текст-бокс
-    form.addEventListener('submit', submitHandler); // добавляем обработку ввода Enter-ом
-}*/
-
-function todoSubmitHandler(event){ 
+function toDoSubmitHandler(event){ 
     event.preventDefault();
-    const inputList = todoInput.value; 
-    addToDoListElement(inputList); // показать список задач
-    //saveTodoList(todoList);
+    const inputList = toDoInput.value; // получаем занчение из текст-бокса
+    addToDoListElement(inputList); // добавляем заадчу
+    toDoInput.value = "";
 }
 
-function saveTodoList(list){
-    localStorage.setItem('todoList', list);
+function saveToDoList(){
+    localStorage.setItem('toDoList', JSON.stringify(toDoArray)); // преобразование а строку так как в браузере данные хранятся в виде строк
+}
+
+function deleteTaskHandler(event){
+    const btn = event.target; // получаем кнопку
+    const li = btn.parentNode; // получаем элемент которому принадлежит кнопка
+    toDoViewList.removeChild(li); // удаляем из списка элемент задачи
+    const cleanToDoList = toDoArray.filter(function(toDo){ // получаем новый массив со значениями, которые выполнили функцию
+        return toDo.id != parseInt(li.id); 
+    }); 
+    toDoArray = cleanToDoList;
+    saveToDoList();
 }
 
 init();
